@@ -1,6 +1,8 @@
 function LoginPage() {
     return (
-        <div></div>
+        <div>
+            <p>LoginPage</p>
+        </div>
     )
 }
 export default LoginPage;

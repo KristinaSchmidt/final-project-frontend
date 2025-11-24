@@ -1,6 +1,8 @@
 function TermsPage() {
     return (
-        <div></div>
+        <div>
+            <p>TermsPage</p>
+        </div>
     )
 }
 export default TermsPage;

@@ -1,6 +1,8 @@
 function SignUpPage() {
     return (
-        <div></div>
+        <div>
+            <p>SignUpPage</p>
+        </div>
     )
 }
 export default SignUpPage;

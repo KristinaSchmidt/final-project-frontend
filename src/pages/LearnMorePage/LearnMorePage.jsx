@@ -1,6 +1,8 @@
 function LearnMorePage() {
     return (
-        <div></div>
+        <div>
+            <p>LearnMorePage</p>
+        </div>
     )
 }
 export default LearnMorePage;

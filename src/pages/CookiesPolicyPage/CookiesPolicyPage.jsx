@@ -1,6 +1,8 @@
 function CookiesPolicyPage() {
     return (
-        <div></div>
+        <div>
+            <p>CookiesPolicyPage</p>
+        </div>
     )
 }
 export default CookiesPolicyPage;
