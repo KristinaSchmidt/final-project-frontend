@@ -1,10 +1,11 @@
 import styles from "./Input.module.css"
+import Error from "../Error/Error.jsx";
 
-const Input = ({label, type="text", name, value, error,  onChange, placeholder}) => {
+const Input = ({label, type="text", name, register, value, error,  onChange, placeholder}) => {
     return (
         <div className={styles.input}>
             {label && <label htmlFor={name}>{label}</label>}
-            <input>
+            <input
                 id={name}
                 type={type}
                 name={name}
@@ -12,7 +13,8 @@ const Input = ({label, type="text", name, value, error,  onChange, placeholder})
                 onChange={onChange}
                 placeholder={placeholder}
                 className={error ? styles.errorInput : ""}
-            </input>
+                {...(register ? register(name) : {})}
+            />
             <Error message={error} />
         </div>
     );
