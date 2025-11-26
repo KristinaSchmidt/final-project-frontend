@@ -9,14 +9,18 @@ const LoginPage=() =>{
     return (
         <div className={styles.container}>
             <img src={instagramPhone} alt="InstagramImage"></img>
-            <AuthLayout>
-                <LoginForm />
+            <div className={styles.right}>
+                <AuthLayout>
+                    <LoginForm />
+                
+                </AuthLayout>
+
                 <AuthFooter
                     text="Don’t have an account?"
                     linkText="Sign up"
                     to="/register"
                 />
-            </AuthLayout>
+            </div>
         </div>
     )
 };

@@ -1,11 +1,11 @@
 import styles from "./Logo.module.css";
-import logo from "../../../assets/images/logo.svg"
+import logo from "../../../assets/images/ICHGRAM.png"
 
 
 const Logo =() => {
     return (
-        <div className={styles.logo}>
-            <img src={logo} alt="ICHGRAM"></img>
+        <div className={styles.logoWrapper}>
+            <img src={logo} alt="ICHGRAM" className={styles.logo} ></img>
         </div>
     )
 };

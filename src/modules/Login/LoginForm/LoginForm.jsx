@@ -2,6 +2,7 @@ import {useForm} from "react-hook-form";
 import Input from "../../../shared/components/Input/Input.jsx";
 import Button from "../../../shared/components/Button/Button.jsx";
 import Logo from "../../../shared/components/Logo/Logo.jsx";
+import styles from "./LoginForm.module.css"
 
 const LoginForm= () => {
     const {register, handleSubmit, reset, formState:{errors}} = useForm();
@@ -27,6 +28,17 @@ const LoginForm= () => {
                 error={errors.password?.message}
             />
             <Button type="submit">Log in</Button>
+
+
+            <div className={styles.divider}>
+                <span></span>
+                <p>OR</p>
+                <span></span>
+            </div>
+
+
+            <button type="button" className={styles.forgot}>Forgot password?</button>
+
         </form>
     )
 };

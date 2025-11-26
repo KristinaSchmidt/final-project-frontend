@@ -5,7 +5,7 @@ import { Link } from "react-router-dom"
 const AuthFooter= ({text, linkText, to}) => {
     return (
         <div className={styles.authLinkDiv}>
-            <p>{text}<Link to={to}>{linkText}</Link></p>
+            <p className={styles.text}>{text}<Link to={to}>{linkText}</Link></p>
         </div>
     )
 };
