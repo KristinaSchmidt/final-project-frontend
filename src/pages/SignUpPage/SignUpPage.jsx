@@ -1,4 +1,7 @@
-import styles from "./SignUpPage.module.css"
+import styles from "./SignUpPage.module.css";
+import AuthLayout from "../../shared/components/AuthLayout/AuthLayout";
+import AuthFooter from "../../shared/components/AuthFooter/AuthFooter";
+import SignUpForm from "../../modules/SignUpForm/SignUpForm";
 
 function SignUpPage() {
     return (

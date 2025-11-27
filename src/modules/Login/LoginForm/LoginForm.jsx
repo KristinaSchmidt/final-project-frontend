@@ -1,4 +1,5 @@
 import {useForm} from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import Input from "../../../shared/components/Input/Input.jsx";
 import Button from "../../../shared/components/Button/Button.jsx";
 import Logo from "../../../shared/components/Logo/Logo.jsx";
@@ -6,10 +7,15 @@ import styles from "./LoginForm.module.css"
 
 const LoginForm= () => {
     const {register, handleSubmit, reset, formState:{errors}} = useForm();
+    const navigate = useNavigate(); 
 
     const onSubmit= values => {
         console.log(values);
-    }
+    };
+
+    const handleForgotPassword = () => {navigate("/reset");
+    };
+
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <Logo />
@@ -36,8 +42,7 @@ const LoginForm= () => {
                 <span></span>
             </div>
 
-
-            <button type="button" className={styles.forgot}>Forgot password?</button>
+            <button type="button" className={styles.forgot} onClick={handleForgotPassword}>Forgot password?</button>
 
         </form>
     )

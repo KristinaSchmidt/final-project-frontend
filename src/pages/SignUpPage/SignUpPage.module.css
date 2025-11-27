@@ -3,7 +3,9 @@
   background: #fafafa;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  gap: 32px;
+  padding: 40px 20px;
 }
 
 .wrapper {
@@ -12,3 +14,4 @@
   align-items: center;
   gap: 10px;
 }
+
