@@ -1,13 +1,13 @@
 import { Routes, Route} from "react-router-dom";
-import HomePage from "./HomePage/HomePage";
-import LoginPage from "./LoginPage/LoginPage";
-import SignUpPage from "./SignUpPage/SignUpPage";
-import NotFoundPage from "./NotFoundPage/NotFoundPage";
-import ResetPasswordPage from "./ResetPasswordPage/ResetPasswordPage";
-import CookiesPolicyPage from "./CookiesPolicyPage/CookiesPolicyPage";
-import LearnMorePage from "./LearnMorePage/LearnMorePage";
-import PrivacyPolicyPage from "./PrivacyPolicyPage/PrivacyPolicyPage";
-import TermsPage from "./TermsPage/TermsPage";
+import HomePage from "./HomePage/HomePage.jsx";
+import LoginPage from "./LoginPage/LoginPage.jsx";
+import SignUpPage from "./SignUpPage/SignUpPage.jsx";
+import NotFoundPage from "./NotFoundPage/NotFoundPage.jsx";
+import ResetPasswordPage from "./ResetPasswordPage/ResetPasswordPage.jsx";
+import CookiesPolicyPage from "./CookiesPolicyPage/CookiesPolicyPage.jsx";
+import LearnMorePage from "./LearnMorePage/LearnMorePage.jsx";
+import PrivacyPolicyPage from "./PrivacyPolicyPage/PrivacyPolicyPage.jsx";
+import TermsPage from "./TermsPage/TermsPage.jsx";
 
 
 

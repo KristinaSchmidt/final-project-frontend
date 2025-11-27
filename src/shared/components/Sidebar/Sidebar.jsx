@@ -1,4 +1,4 @@
-import styles from "./Sidebar.module.css";
+
 import { navItems } from "../../navigation/navItems";
 import Logo from "../Logo/Logo";
 
@@ -9,7 +9,7 @@ const Sidebar=() => {
         <div>
            <Logo />
            <nav>
-            {sidebarLinks.map(item => ())}
+        
            </nav>
         </div>
     )
