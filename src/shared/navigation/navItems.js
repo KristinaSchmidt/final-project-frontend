@@ -4,6 +4,7 @@ import exploreIcon from "../../assets/icons/explore.png";
 import ichgramIcon from "../../assets/icons/ichgram.png";
 import messagesIcon from "../../assets/icons/messages.png";
 import notificationsIcon from "../../assets/icons/notifications.png";
+import searchIcon from "../../assets/icons/search.png"
 
 
 
@@ -66,7 +67,7 @@ export const navItems= [
         id:"profile",
         label:"Profile",
         path: "/profile",
-        icon:profileIcon,
+        icon:ichgramIcon,
         showInSidebar: true,
         showInFooter: false,
     },

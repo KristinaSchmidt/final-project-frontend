@@ -1,7 +1,10 @@
+import MainLayout from "../../shared/components/MainLayout/MainLayout";
+
+
 const HomePage=() => {
   return(
     <div>
-      <p>HomePage</p>
+      <MainLayout />
     </div>
   )
 }

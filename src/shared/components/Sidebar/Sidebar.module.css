@@ -1,0 +1,30 @@
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  margin-top: 40px;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: 18px;
+  color: #000;
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.navItem:hover {
+  background: #f2f2f2;
+}
+
+.navItemActive {
+  font-weight: 600;
+}
+
+.navIcon {
+  width: 22px;
+  height: 22px;
+}

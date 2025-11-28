@@ -1,10 +1,25 @@
 import styles from "./Footer.module.css";
+import {Link} from "react-router-dom";
+import { navItems } from "../../navigation/navItems";
 
 const Footer=() => {
+    const footerLinks = navItems.filter(item => item.showInFooter);
     return(
-        <div classname={styles.container}>
+        <footer classname={styles.footer}>
+            <div className={styles.footerLinks}>
+            {footerLinks.map(item =>(
+                <Link
+                    key={item.id}
+                    to={item.path}
+                    className={styles.footerLink}
+                >
+                    {item.label}
+                </Link>
+            ))}
+            </div>
+            <p className={styles.copy}>© 2024 ICHgram</p>
 
-        </div>
+        </footer>
     )
 };
 export default Footer;
