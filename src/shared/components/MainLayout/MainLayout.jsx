@@ -1,3 +1,4 @@
+import { Outlet } from "react-router-dom";
 import styles from "./MainLayout.module.css";
 import Sidebar from "../Sidebar/Sidebar";
 import Footer from "../Footer/Footer";
@@ -12,11 +13,14 @@ const MainLayout = ({ children }) => {
 
         <div className={styles.right}>
             <main className={styles.content}>
-            {children}
+              <Outlet />
             </main>
-
-        <Footer />
         </div>
+
+        <footer className={styles.footerWrapper}>
+          <Footer />
+        </footer>
+        
     </div>
   );
 };

@@ -1,0 +1,133 @@
+.searchLayout {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+  height: 100%;
+}
+
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.55);
+  z-index: 1;
+}
+
+
+.searchPanel {
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  flex-shrink: 0;
+  flex-grow: 0;
+  width: min(397px, 100%);
+  background-color: #ffffff;
+  border-radius: 0 24px 24px 0;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+  padding: 24px 24px 16px;
+  box-sizing: border-box;
+
+
+  height: 100%;
+}
+
+
+.title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+
+.inputWrapper {
+  position: relative;
+  margin-bottom: 24px;
+}
+
+.input {
+  width: 100%;
+  padding: 10px 36px 10px 12px;
+  border-radius: 8px;
+  border: none;
+  background-color: #efefef;
+  font-size: 14px;
+  outline: none;
+}
+
+.input:focus {
+  background-color: #e9e9e9;
+}
+
+.inputButton {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  font-size: 18px;
+  color: #a8a8a8;
+  cursor: pointer;
+}
+
+
+.recentSection {
+  margin-top: 8px;
+}
+
+.recentHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.recentTitle {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.emptyText {
+  font-size: 14px;
+  color: #8e8e8e;
+}
+
+
+.resultList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.resultItem {
+  display: flex;
+  align-items: center;
+  padding: 8px 0;
+  cursor: pointer;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin-right: 12px;
+  object-fit: cover;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.username {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.fullName {
+  font-size: 12px;
+  color: #8e8e8e;
+}

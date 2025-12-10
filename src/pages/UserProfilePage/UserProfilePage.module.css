@@ -1,0 +1,151 @@
+.wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 16px 24px 16px;
+}
+
+/* oberer Bereich */
+.top {
+  width: min(935px, 100%);
+  display: flex;
+  gap: 32px;
+  margin-bottom: 32px;
+}
+
+/* Avatar links */
+.avatarBox {
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.avatar {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Info rechts */
+.info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.name {
+  font-size: 20px;
+  font-weight: 400;
+}
+
+/* Buttons oben */
+.followBtn {
+  padding: 6px 16px;
+  border-radius: 8px;
+  border: none;
+  background-color: #0095f6;
+  color: #ffffff;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.messageBtn {
+  padding: 6px 16px;
+  border-radius: 8px;
+  border: 1px solid #dbdbdb;
+  background-color: #ffffff;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* Stats */
+.rowSmall {
+  display: flex;
+  gap: 24px;
+  font-size: 14px;
+}
+
+/* Bio */
+.bio {
+  font-size: 14px;
+}
+
+.bioTitle {
+  font-weight: 600;
+}
+
+.link {
+  color: #00376b;
+  text-decoration: none;
+}
+
+/* Posts Grid */
+.grid {
+  width: min(935px, 100%);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 300px;
+  gap: 4px;
+}
+
+.box {
+  position: relative;
+  overflow: hidden;
+}
+
+.img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .top {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .info {
+    align-items: center;
+  }
+
+  .row {
+    flex-direction: column;
+  }
+
+  .rowSmall {
+    justify-content: center;
+  }
+
+  .grid {
+    width: min(600px, 100%);
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 250px;
+  }
+}
+
+/* Handy */
+@media (max-width: 600px) {
+  .wrapper {
+    padding: 16px 8px 16px;
+  }
+
+  .grid {
+    width: 100%;
+    grid-template-columns: 1fr;
+    grid-auto-rows: 260px;
+  }
+}

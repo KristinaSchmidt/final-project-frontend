@@ -5,7 +5,7 @@ import { navItems } from "../../navigation/navItems";
 const Footer=() => {
     const footerLinks = navItems.filter(item => item.showInFooter);
     return(
-        <footer classname={styles.footer}>
+        <footer className={styles.footer}>
             <div className={styles.footerLinks}>
             {footerLinks.map(item =>(
                 <Link
@@ -17,7 +17,7 @@ const Footer=() => {
                 </Link>
             ))}
             </div>
-            <p className={styles.copy}>© 2024 ICHgram</p>
+            <p className={styles.copy}>© 2025 ICHgram</p>
 
         </footer>
     )

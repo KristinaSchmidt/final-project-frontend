@@ -10,3 +10,18 @@
   height: auto;
   display: block;
 }
+
+.sidebarLogoWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+
+.sidebarLogo {
+  display: block;
+  height: auto;
+  width: clamp(0px, calc(10vw - 40px), 120px);
+}

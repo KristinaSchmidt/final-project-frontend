@@ -1,0 +1,353 @@
+.wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 16px 24px 16px;
+}
+
+/* oberer Bereich */
+.top {
+  width: min(935px, 100%);
+  display: flex;
+  gap: 32px;
+  margin-bottom: 32px;
+}
+
+/* Avatar links */
+.avatarBox {
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.avatar {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Info rechts */
+.info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.name {
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.button {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #dbdbdb;
+  background-color: #fafafa;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.rowSmall {
+  display: flex;
+  gap: 24px;
+  font-size: 14px;
+}
+
+.bio {
+  font-size: 14px;
+}
+
+.bioTitle {
+  font-weight: 600;
+}
+
+.link {
+  color: #00376b;
+  text-decoration: none;
+}
+
+/* Grid mit Posts */
+.grid {
+  width: min(935px, 100%);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 300px;
+  gap: 4px;
+}
+
+/* Bild-Box als Button (für Click) */
+.box {
+  position: relative;
+  overflow: hidden;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  background: none;
+}
+
+.img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ---------- Modal / Post-Fenster ---------- */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.55);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 50;
+}
+
+.postBox {
+  position: relative;
+  width: min(1020px, 100%);
+  max-height: 90vh;
+  background-color: #ffffff;
+  display: flex;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* linker Teil mit Bild */
+.postLeft {
+  flex: 1.2;
+  background-color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.postImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* rechter Teil mit Text */
+.postRight {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+}
+
+/* Kopf rechts */
+.postTop {
+  padding: 12px 16px;
+  border-bottom: 1px solid #dbdbdb;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.postTopLeft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.postAvatarSmall {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.postAvatarImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.postUser {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Body rechts (Text + Kommentare) */
+.postBody {
+  padding: 12px 16px;
+  flex: 1;
+  overflow-y: auto;
+  font-size: 14px;
+}
+
+.postText {
+  margin-bottom: 12px;
+}
+
+.commentList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.commentRow {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.commentUser {
+  font-weight: 600;
+}
+
+/* Footer rechts */
+.postBottom {
+  padding: 12px 16px;
+  border-top: 1px solid #dbdbdb;
+  font-size: 13px;
+}
+
+.postLikes {
+  font-weight: 600;
+}
+
+.postTime {
+  color: #8e8e8e;
+  margin-bottom: 8px;
+}
+
+/* Kommentarformular */
+.postForm {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.postInput {
+  flex: 1;
+  height: 32px;
+  border-radius: 16px;
+  border: 1px solid #dbdbdb;
+  padding: 0 12px;
+  font-size: 13px;
+}
+
+.postSend {
+  border: none;
+  background-color: transparent;
+  color: #0095f6;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+/* ---------- 3-Punkte-Button + Menü ---------- */
+
+.menuBtn {
+  border: none;
+  background: transparent;
+  font-size: 20px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+/* Menü in der Mitte (Delete / Edit / Go to post / Copy link / Cancel) */
+.menu {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 260px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+}
+
+.menuItem {
+  padding: 10px 16px;
+  font-size: 14px;
+  text-align: center;
+  border: none;
+  background-color: #ffffff;
+  cursor: pointer;
+}
+
+.menuItem + .menuItem {
+  border-top: 1px solid #efefef;
+}
+
+.menuItem:hover {
+  background-color: #fafafa;
+}
+
+.menuItemDanger {
+  color: #ed4956;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 1024px) {
+  .top {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .info {
+    align-items: center;
+  }
+
+  .row {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .rowSmall {
+    justify-content: center;
+  }
+
+  .grid {
+    width: min(600px, 100%);
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 250px;
+  }
+}
+
+@media (max-width: 800px) {
+  .postBox {
+    flex-direction: column;
+    max-height: 95vh;
+  }
+
+  .postLeft {
+    max-height: 60vh;
+  }
+
+  .postRight {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .wrapper {
+    padding: 16px 8px 16px;
+  }
+
+  .grid {
+    width: 100%;
+    grid-template-columns: 1fr;
+    grid-auto-rows: 260px;
+  }
+}

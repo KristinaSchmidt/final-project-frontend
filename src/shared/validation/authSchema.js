@@ -1,28 +1,52 @@
-import {z} from zod;
+import * as z from "zod";
+import { emailRegex, passwordRegex, passwordMessage } from "../constants/auth.constants.js";
+
 
 export const loginSchema = z.object({
-    email: z.string().email("Invalid email"),
-    password: z.string().min(6, "Password must be at least 6 characters"),
+  email: z
+    .string()
+    .trim()
+    .min(1, "Email is required")
+    .max(254, "Email is too long")
+    .regex(emailRegex, "Please enter a valid email"),
+  password: z
+    .string()
+    .trim()
+    .min(8, "Password must have at least 8 symbols")
+    .regex(passwordRegex, passwordMessage),
 });
+
+
 
 
 export const registerSchema = z.object({
-    email: z.string().email("Invalid email"),
+    email: z
+      .string()
+      .trim()
+      .min(1, "Email is required")
+      .max(254, "Email is too long")
+      .regex(emailRegex, "Please enter a valid email"),
+    fullname: z
+      .string()
+      .trim()
+      .min(1, "Full name is required")
+      .max(50, "Full name is too long"),
     username: z
-        .string()
-        .min(3, "Username must be at least 3 characters")
-        .max(20, "Username too long"),
-    password: z.string().min(6, "Password must be at least 6 characters"),
+      .string()
+      .trim()
+      .min(1, "Username is required")
+      .max(50, "Username is too long"),
+    password: z
+      .string()
+      .trim()
+      .min(8, "Password must be at least 8 characters long")
+      .regex(passwordRegex, passwordMessage),
     confirmPassword: z
-        .string()
-        .min(6),
-        }).refine((data) => data.password === data.confirmPassword, {
+      .string()
+      .trim()
+      .min(8, "Password must be at least 8 characters long"),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords must match",
     path: ["confirmPassword"],
-});
-
-
-
-export const resetSchema = z.object({
-    email: z.string().email("Invalid email"),
-});
+  });

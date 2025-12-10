@@ -3,7 +3,7 @@
   background: #fafafa;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   gap: 32px;
   padding: 40px 20px;
 }
@@ -15,3 +15,15 @@
   gap: 10px;
 }
 
+.infoText {
+
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+.errorText {
+  
+  margin-top: 4px;
+  color: red;
+  font-size: 14px;
+}

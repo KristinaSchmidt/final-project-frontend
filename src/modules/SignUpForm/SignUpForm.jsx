@@ -1,16 +1,45 @@
+import { useEffect } from "react";
 import {useForm} from "react-hook-form";
 import { Link } from "react-router-dom"; 
+// import { zodResolver } from "@hookform/resolvers/zod";
+// import { registerSchema } from "../../shared/validation/authSchema.js";
 import Input from "../../shared/components/Input/Input.jsx";
 import Button from "../../shared/components/Button/Button.jsx";
 import Logo from "../../shared/components/Logo/Logo.jsx";
 import styles from "./SignUpForm.module.css"
 
-const SignUpForm= () => {
-    const {register, handleSubmit, reset, formState:{errors}} = useForm();
+const SignUpForm = ({ requestErrors, isSubmitSuccess, submitForm }) => {
+  const {
+    register,
+    handleSubmit,
+    setError,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm();
 
-    const onSubmit= values => {
-        console.log(values);
+  useEffect(() => {
+    if (requestErrors) {
+      for (const key in requestErrors) {
+        setError(key, {
+          message: requestErrors[key],
+        });
+      }
     }
+  }, [requestErrors, setError]);
+
+  useEffect(() => {
+    if (isSubmitSuccess) {
+      reset();
+    }
+  }, [isSubmitSuccess, reset]);
+
+  const onSubmit = (values) => {
+    submitForm(values);
+  };
+
+  // console.log(errors);
+
+
     return (
         <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
             <Logo />
@@ -29,11 +58,11 @@ const SignUpForm= () => {
             />
 
             <Input
-                name="name"
+                name="fullname"
                 type="text"
                 placeholder="Full Name"
                 register={register}
-                error={errors.name?.message}
+                error={errors.fullname?.message}
             />
 
             <Input
@@ -69,7 +98,7 @@ const SignUpForm= () => {
                 .
                 </p>
             </div>
-            <Button type="submit">Sign up</Button>
+            <Button type="submit" disabled={isSubmitting}>Sign up</Button>
 
 
           

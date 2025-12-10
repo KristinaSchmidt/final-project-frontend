@@ -4,7 +4,8 @@ import exploreIcon from "../../assets/icons/explore.png";
 import ichgramIcon from "../../assets/icons/ichgram.png";
 import messagesIcon from "../../assets/icons/messages.png";
 import notificationsIcon from "../../assets/icons/notifications.png";
-import searchIcon from "../../assets/icons/search.png"
+import searchIcon from "../../assets/icons/search.png";
+import profile from "../../assets/icons/profile.png";
 
 
 
@@ -24,7 +25,7 @@ export const navItems= [
         path: "/search",
         icon:searchIcon,
         showInSidebar: true,
-        showInFooter: false,
+        showInFooter: true,
     },
 
     {
@@ -67,8 +68,16 @@ export const navItems= [
         id:"profile",
         label:"Profile",
         path: "/profile",
-        icon:ichgramIcon,
+        // icon:profile,
         showInSidebar: true,
         showInFooter: false,
+    },
+    {
+        id:"ichgram",
+        label:"ICHgram",
+        path: "/ichgram",
+        icon:ichgramIcon,
+        showInSidebar: false,
+        showInFooter: true,
     },
 ]

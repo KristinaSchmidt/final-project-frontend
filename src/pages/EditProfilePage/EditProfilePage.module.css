@@ -1,0 +1,150 @@
+.wrapper {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  padding: 32px 16px 24px;
+}
+
+.form {
+  width: min(600px, 100%);
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 24px;
+}
+
+/* obere Karte mit Avatar + Button */
+.card {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  border-radius: 12px;
+  background-color: #fafafa;
+  margin-bottom: 24px;
+}
+
+.cardLeft {
+  margin-right: 16px;
+}
+
+.avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.avatarPlaceholder {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: #e0e0e0;
+}
+
+.cardRight {
+  flex: 1;
+}
+
+.cardName {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.cardText {
+  font-size: 12px;
+  color: #8e8e8e;
+  margin-bottom: 8px;
+}
+
+/* Button "New photo" */
+.photoBtn {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 8px;
+  background-color: #0095f6;
+  color: #ffffff;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.fileInput {
+  display: none;
+}
+
+/* Felder */
+.field {
+  margin-bottom: 16px;
+}
+
+.label {
+  display: block;
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+
+.input {
+  width: 100%;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid #dbdbdb;
+  padding: 0 10px;
+  font-size: 14px;
+}
+
+.textarea {
+  width: 100%;
+  min-height: 80px;
+  border-radius: 8px;
+  border: 1px solid #dbdbdb;
+  padding: 8px 10px;
+  font-size: 14px;
+  resize: vertical;
+}
+
+.counter {
+  font-size: 12px;
+  color: #8e8e8e;
+  text-align: right;
+  margin-top: 4px;
+}
+
+.error {
+  color: #ed4956;
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+
+.saveBtn {
+  display: block;
+  width: 120px;
+  margin: 16px auto 0;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  background-color: #0095f6;
+  color: #ffffff;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.saveBtn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+
+.logoutBtn {
+  background: #e53935;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.logoutBtn:hover {
+  background: #d32f2f;
+}
