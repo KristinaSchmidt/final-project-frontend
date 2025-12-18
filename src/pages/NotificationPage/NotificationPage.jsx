@@ -1,7 +1,13 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./NotificationPage.module.css";
 import Avatar from "../../shared/components/Avatar/Avatar.jsx";
+
+import {
+  getNotifications,
+  markAllNotificationsRead,
+  markNotificationRead,
+} from "../../shared/api/notification-api.js";
 
 const API_URL = import.meta.env.VITE_API_URL || "";
 const API_ORIGIN = API_URL ? new URL(API_URL).origin : window.location.origin;
@@ -52,7 +58,7 @@ const buildText = (n) => {
     case "comment":
       return "commented your photo.";
     case "follow":
-      return "started following.";
+      return "started following you.";
     default:
       return "did something.";
   }
@@ -60,45 +66,62 @@ const buildText = (n) => {
 
 const NotificationsPage = () => {
   const navigate = useNavigate();
+  const menuRef = useRef(null);
 
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
+
+
   const [error, setError] = useState("");
 
+  const [menuOpen, setMenuOpen] = useState(false);
+
   useEffect(() => {
-    const ctrl = new AbortController();
+    const onClickOutside = (e) => {
+      if (!menuRef.current) return;
+      if (!menuRef.current.contains(e.target)) setMenuOpen(false);
+    };
+    document.addEventListener("mousedown", onClickOutside);
+    return () => document.removeEventListener("mousedown", onClickOutside);
+  }, []);
+
+  useEffect(() => {
+    let alive = true;
 
     const load = async () => {
       try {
         setLoading(true);
         setError("");
 
-        const token = localStorage.getItem("token");
-        const res = await fetch(`${API_URL || ""}/api/notifications`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
-          },
-          signal: ctrl.signal,
-        });
+        const data = await getNotifications();
+        const list = Array.isArray(data) ? data : data?.notifications || [];
 
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-
-        const data = await res.json();
-        const list = Array.isArray(data) ? data : data.notifications || [];
+        if (!alive) return;
         setItems(list);
       } catch (e) {
-        if (e?.name === "AbortError") return;
-        console.log(e);
-        setError("Could not load notifications");
+        const status = e?.response?.status;
+        const serverMsg = e?.response?.data?.message;
+        const msg = serverMsg || e?.message || "Could not load notifications";
+
+        console.log("Notifications error:", e);
+        if (!alive) return;
+
+        if (status === 401) {
+          setError("Unauthorized (please login again)");
+          return;
+        }
+
+        setError(msg);
       } finally {
+        if (!alive) return;
         setLoading(false);
       }
     };
 
     load();
-    return () => ctrl.abort();
+    return () => {
+      alive = false;
+    };
   }, []);
 
   const normalized = useMemo(() => {
@@ -111,7 +134,8 @@ const NotificationsPage = () => {
       const thumbUrl = toAbs(post.imageUrl || post.image || n.thumbnailUrl || n.thumb || "");
 
       return {
-        id: n._id || n.id || `${username}-${createdAt}-${Math.random()}`,
+        id: n._id || n.id,
+        isRead: Boolean(n.isRead),
         username,
         avatarUrl,
         text: buildText(n),
@@ -121,8 +145,27 @@ const NotificationsPage = () => {
     });
   }, [items]);
 
-  const handleClose = () => {
-    navigate(-1);
+  const handleClose = () => navigate(-1);
+
+  const onMarkAllRead = async () => {
+    try {
+      await markAllNotificationsRead();
+      setItems((prev) => prev.map((x) => ({ ...x, isRead: true })));
+      setMenuOpen(false);
+    } catch (e) {
+      const msg = e?.response?.data?.message || e?.message || "Failed to mark all read";
+      setError(msg);
+    }
+  };
+
+  const onMarkOneRead = async (id) => {
+    if (!id) return;
+    try {
+      await markNotificationRead(id);
+      setItems((prev) => prev.map((x) => (x._id === id || x.id === id ? { ...x, isRead: true } : x)));
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
@@ -135,11 +178,19 @@ const NotificationsPage = () => {
       />
 
       <section className={styles.box} aria-label="Notifications panel">
-        <h1 className={styles.title}>Notifications</h1>
+        <div className={styles.header}>
+          <h1 className={styles.title}>Notifications</h1>
+
+
+          
+     
+    
+        </div>
+
         <p className={styles.smallTitle}>New</p>
 
         {loading && <p className={styles.info}>Loading...</p>}
-        {!loading && error && <p className={styles.info}>{error}</p>}
+        {!loading && error && <p className={styles.infoError}>{error}</p>}
 
         {!loading && !error && normalized.length === 0 && (
           <p className={styles.info}>No notifications</p>
@@ -148,15 +199,24 @@ const NotificationsPage = () => {
         {!loading && !error && normalized.length > 0 && (
           <ul className={styles.list}>
             {normalized.map((n) => (
-              <li key={n.id} className={styles.row}>
+              <li
+                key={n.id}
+                className={`${styles.row} ${n.isRead ? "" : styles.unread}`}
+                onClick={() => onMarkOneRead(n.id)}
+              >
                 <div className={styles.avatarWrap}>
                   <Avatar src={n.avatarUrl} alt={`${n.username} avatar`} size="md" />
                 </div>
 
                 <div className={styles.textBox}>
-                  <span className={styles.name}>{n.username}</span>{" "}
-                  <span className={styles.text}>{n.text}</span>{" "}
-                  {n.time && <span className={styles.time}>{n.time}</span>}
+                  <div className={styles.line}>
+                    <span className={styles.name}>{n.username}</span>{" "}
+                    <span className={styles.text}>{n.text}</span>
+                  </div>
+                  <div className={styles.meta}>
+                    {n.time && <span className={styles.time}>{n.time}</span>}
+                    {!n.isRead && <span className={styles.dot} />}
+                  </div>
                 </div>
 
                 <div className={styles.thumbWrap}>
