@@ -5,7 +5,13 @@ export const getUserProfile = async (id) => {
   return data;
 };
 
-export const getMyProfileApi = async () => {
+export const getMyProfile = async () => {
   const { data } = await instance.get("/users/me");
+  return data;
+};
+
+
+export const toggleFollow = async (id) => {
+  const { data } = await instance.post(`/users/${id}/follow`);
   return data;
 };

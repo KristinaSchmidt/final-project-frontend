@@ -1,135 +1,153 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styles from "./UserProfilePage.module.css";
+import { getUserProfile, toggleFollow } from "../../shared/api/user-api";
+
+
+
+const API_URL = import.meta.env.VITE_API_URL || "";
+const API_ORIGIN = API_URL ? new URL(API_URL).origin : window.location.origin;
+const DEFAULT_AVATAR = `${API_ORIGIN}/images/default-avatar.jpg`;
+
+const normalizeUrl = (url) => {
+  if (!url) return "";
+  if (typeof url !== "string") return "";
+  if (url.startsWith("http://") || url.startsWith("https://")) return url;
+  if (url.startsWith("/")) return `${API_ORIGIN}${url}`;
+  return `${API_ORIGIN}/${url}`;
+};
+
+
 
 const UserProfilePage = () => {
-  const { id } = useParams(); // z.B. /user/123
+  const { id } = useParams();
+
   const [user, setUser] = useState(null);
   const [posts, setPosts] = useState([]);
+  const [stats, setStats] = useState({ posts: 0, followers: 0, following: 0 });
+  const [isFollowing, setIsFollowing] = useState(false);
+
+  const [loading, setLoading] = useState(true);
+  const [busyFollow, setBusyFollow] = useState(false);
+
+  const load = async () => {
+    const data = await getUserProfile(id);
+
+    const u = data?.user || null;
+    const s = data?.stats || { posts: 0, followers: 0, following: 0 };
+    const p = Array.isArray(data?.posts) ? data.posts : [];
+
+    setUser({
+      ...u,
+      avatar: normalizeUrl(u?.avatar) || DEFAULT_AVATAR,
+    });
+    setStats(s);
+    setPosts(p);
+    setIsFollowing(!!data?.isFollowing);
+  };
 
   useEffect(() => {
-    // 🔹 später: echte Daten vom Backend holen, z.B.:
-    // const token = localStorage.getItem("token");
-    // const userRes = await fetch(`/api/users/${id}`, { headers: { Authorization: `Bearer ${token}` }});
-    // const userData = await userRes.json();
-    // setUser(userData);
-    //
-    // const postRes = await fetch(`/api/posts/user/${id}`, { headers: {...} });
-    // const postData = await postRes.json();
-    // setPosts(postData);
+    let mounted = true;
 
-    // jetzt: Demo-Daten
-    const demoUser = {
-      id,
-      name: "itcareerhub",
-      avatar:
-        "https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg",
-      postsCount: 129,
-      followersCount: 9990,
-      followingCount: 59,
-      title: "IT Career Hub",
-      bio: "- Гарантия помощи с трудоустройством в ведущие IT-компании\n- Выпускники зарабатывают от 45k евро\nБЕСПЛАТНАЯ",
-      link: "https://bit.ly/3rpIlbh",
+    const run = async () => {
+      try {
+        setLoading(true);
+        await load();
+      } catch (e) {
+        console.error(e);
+        if (mounted) setUser(null);
+      } finally {
+        if (mounted) setLoading(false);
+      }
     };
 
-    const demoPosts = [
-      {
-        id: 1,
-        src: "https://images.pexels.com/photos/2100063/pexels-photo-2100063.jpeg",
-        alt: "post 1",
-      },
-      {
-        id: 2,
-        src: "https://images.pexels.com/photos/1181539/pexels-photo-1181539.jpeg",
-        alt: "post 2",
-      },
-      {
-        id: 3,
-        src: "https://images.pexels.com/photos/208636/pexels-photo-208636.jpeg",
-        alt: "post 3",
-      },
-      {
-        id: 4,
-        src: "https://images.pexels.com/photos/1563355/pexels-photo-1563355.jpeg",
-        alt: "post 4",
-      },
-      {
-        id: 5,
-        src: "https://images.pexels.com/photos/712876/pexels-photo-712876.jpeg",
-        alt: "post 5",
-      },
-      {
-        id: 6,
-        src: "https://images.pexels.com/photos/3806439/pexels-photo-3806439.jpeg",
-        alt: "post 6",
-      },
-    ];
+    if (id) run();
 
-    setUser(demoUser);
-    setPosts(demoPosts);
+    return () => {
+      mounted = false;
+    };
   }, [id]);
 
-  if (!user) {
-    return <div className={styles.wrapper}>Loading...</div>;
-  }
+  const onToggleFollow = async () => {
+    if (!id || busyFollow) return;
+
+    try {
+      setBusyFollow(true);
+      setIsFollowing((prev) => !prev);
+      setStats((prev) => ({
+        ...prev,
+        followers: prev.followers + (isFollowing ? -1 : 1),
+      }));
+
+      const res = await toggleFollow(id);
+
+      setIsFollowing(!!res?.isFollowing);
+      setStats((prev) => ({
+        ...prev,
+        followers: typeof res?.followersCount === "number" ? res.followersCount : prev.followers,
+      }));
+    } catch (e) {
+      console.error(e);
+      setIsFollowing((prev) => !prev);
+      setStats((prev) => ({
+        ...prev,
+        followers: prev.followers + (isFollowing ? 1 : -1),
+      }));
+    } finally {
+      setBusyFollow(false);
+    }
+  };
+
+  if (loading) return <div className={styles.wrapper}>Loading...</div>;
+  if (!user) return <div className={styles.wrapper}>User not found</div>;
 
   return (
     <div className={styles.wrapper}>
-      {/* Kopfbereich mit Avatar + Infos + Buttons */}
       <div className={styles.top}>
         <div className={styles.avatarBox}>
-          <img
-            className={styles.avatar}
-            src={user.avatar}
-            alt={`${user.name} avatar`}
-          />
+          <img className={styles.avatar} src={user.avatar || DEFAULT_AVATAR} alt={`${user.username} avatar`} />
         </div>
 
         <div className={styles.info}>
-          {/* erste Reihe: Name + Buttons */}
           <div className={styles.row}>
-            <h2 className={styles.name}>{user.name}</h2>
+            <h2 className={styles.name}>{user.username}</h2>
 
-            <button className={styles.followBtn}>Follow</button>
-            <button className={styles.messageBtn}>Message</button>
-          </div>
-
-          {/* zweite Reihe: Stats */}
-          <div className={styles.rowSmall}>
-            <span>
-              <b>{user.postsCount}</b> posts
-            </span>
-            <span>
-              <b>{user.followersCount}</b> followers
-            </span>
-            <span>
-              <b>{user.followingCount}</b> following
-            </span>
-          </div>
-
-          {/* dritte Reihe: Bio */}
-          <div className={styles.bio}>
-            <p className={styles.bioTitle}>{user.title}</p>
-            {user.bio.split("\n").map((line, index) => (
-              <p key={index}>{line}</p>
-            ))}
-            <a
-              className={styles.link}
-              href={user.link}
-              target="_blank"
-              rel="noreferrer"
+            <button
+              className={styles.followBtn}
+              type="button"
+              onClick={onToggleFollow}
+              disabled={busyFollow}
             >
-              {user.link}
-            </a>
+              {isFollowing ? "Following" : "Follow"}
+            </button>
+
+            <button className={styles.messageBtn} type="button">
+              Message
+            </button>
+          </div>
+
+          <div className={styles.rowSmall}>
+            <span><b>{stats.posts}</b> posts</span>
+            <span><b>{stats.followers}</b> followers</span>
+            <span><b>{stats.following}</b> following</span>
+          </div>
+
+          <div className={styles.bio}>
+            {user.fullname && <p className={styles.bioTitle}>{user.fullname}</p>}
+            {user.about && <p>{user.about}</p>}
+            {user.website && (
+              <a className={styles.link} href={user.website} target="_blank" rel="noreferrer">
+                {user.website}
+              </a>
+            )}
           </div>
         </div>
       </div>
 
-      {/* Grid mit Posts */}
       <div className={styles.grid}>
-        {posts.map((item) => (
-          <div key={item.id} className={styles.box}>
-            <img className={styles.img} src={item.src} alt={item.alt} />
+        {posts.map((p) => (
+          <div key={p._id} className={styles.box}>
+            <img className={styles.img} src={normalizeUrl(p.imageUrl)} alt="post" />
           </div>
         ))}
       </div>

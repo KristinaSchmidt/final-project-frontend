@@ -1,7 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import styles from "./ExplorePage.module.css";
+import instance from "../../shared/api/instance";
+import PostModal from "../../shared/components/PostModal/PostModal";
 
-// kleine Hilfsfunktion: mischt ein Array
+
+const API_URL = import.meta.env.VITE_API_URL || "";
+const API_ORIGIN = API_URL ? new URL(API_URL).origin : window.location.origin;
+
+const toAbs = (url) => {
+  if (!url) return "";
+  if (url.startsWith("http")) return url;
+  return `${API_ORIGIN}${url.startsWith("/") ? "" : "/"}${url}`;
+};
+
 const mixList = (arr) => {
   const copy = [...arr];
   for (let i = copy.length - 1; i > 0; i--) {
@@ -11,102 +22,107 @@ const mixList = (arr) => {
   return copy;
 };
 
+
+
+
 const ExplorePage = () => {
-  const [list, setList] = useState([]);       // Bilder/Posts
+  const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const [isOpen, setIsOpen] = useState(false);
+  const [activePostId, setActivePostId] = useState(null);
+
   useEffect(() => {
-    const loadData = async () => {
+    const load = async () => {
       try {
         setLoading(true);
 
-        // 🔹 später: echte Daten vom Backend
-        // const res = await fetch("/api/posts/explore");
-        // const data = await res.json();
-        // const posts = data.posts ?? data;
-        // setList(mixList(posts));
 
-        // 🔹 jetzt: Demo-Bilder (nur Platzhalter)
-        const demo = [
-          {
-            id: 1,
-            src: "https://images.pexels.com/photos/210182/pexels-photo-210182.jpeg",
-            alt: "photo 1",
-          },
-          {
-            id: 2,
-            src: "https://images.pexels.com/photos/2100063/pexels-photo-2100063.jpeg",
-            alt: "photo 2",
-          },
-          {
-            id: 3,
-            src: "https://images.pexels.com/photos/374870/pexels-photo-374870.jpeg",
-            alt: "photo 3",
-          },
-          {
-            id: 4,
-            src: "https://images.pexels.com/photos/247477/pexels-photo-247477.jpeg",
-            alt: "photo 4",
-          },
-          {
-            id: 5,
-            src: "https://images.pexels.com/photos/208636/pexels-photo-208636.jpeg",
-            alt: "photo 5",
-          },
-          {
-            id: 6,
-            src: "https://images.pexels.com/photos/1563355/pexels-photo-1563355.jpeg",
-            alt: "photo 6",
-          },
-          {
-            id: 7,
-            src: "https://images.pexels.com/photos/3806439/pexels-photo-3806439.jpeg",
-            alt: "photo 7",
-          },
-          {
-            id: 8,
-            src: "https://images.pexels.com/photos/1181539/pexels-photo-1181539.jpeg",
-            alt: "photo 8",
-          },
-          {
-            id: 9,
-            src: "https://images.pexels.com/photos/712876/pexels-photo-712876.jpeg",
-            alt: "photo 9",
-          },
-        ];
+        const res = await instance.get("/posts/explore");
+        const posts = Array.isArray(res.data) ? res.data : res.data?.posts || [];
 
-        setList(mixList(demo)); // 🔁 zufällige Reihenfolge
+
+        setList(mixList(posts));
       } catch (e) {
-        console.log(e);
+        console.error("Explore error:", e);
+        setList([]);
       } finally {
         setLoading(false);
       }
     };
 
-    loadData();
+    load();
   }, []);
+
+  useEffect(() => {
+  const load = async () => {
+    try {
+      const res = await instance.get("/posts/explore", {
+        params: { page: 1, limit: 30 },
+      });
+
+      const posts = res.data?.posts ?? res.data ?? [];
+      setList(posts);
+    } catch (e) {
+      console.error("Explore error:", e);
+      setList([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  load();
+}, []);
+
+  const openPost = (postId) => {
+    if (!postId) return;
+    setActivePostId(postId);
+    setIsOpen(true);
+  };
+
+  const closePost = () => {
+    setIsOpen(false);
+    setActivePostId(null);
+  };
+
+
+  const items = useMemo(
+    () =>
+      list
+        .map((p) => ({
+          id: p._id || p.id,
+          src: toAbs(p.image || p.imageUrl || p.photo || p.src),
+        }))
+        .filter((x) => x.id && x.src),
+    [list]
+  );
 
   return (
     <div className={styles.wrapper}>
       {loading && <p className={styles.text}>Loading...</p>}
 
-      {!loading && list.length === 0 && (
+      {!loading && items.length === 0 && (
         <p className={styles.text}>No photos yet</p>
       )}
 
-      {!loading && list.length > 0 && (
+      {!loading && items.length > 0 && (
         <div className={styles.grid}>
-          {list.map((item) => (
-            <div key={item.id} className={styles.box}>
-              <img
-                className={styles.img}
-                src={item.src}
-                alt={item.alt || "post"}
-              />
-            </div>
+          {items.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              className={styles.box}
+              onClick={() => openPost(item.id)}
+              aria-label="Open post"
+            >
+              <img className={styles.img} src={item.src} alt="post" />
+            </button>
           ))}
         </div>
       )}
+
+
+      <PostModal isOpen={isOpen} onClose={closePost} postId={activePostId} />
     </div>
   );
 };

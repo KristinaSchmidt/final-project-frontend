@@ -1,21 +1,17 @@
-import { createAsyncThunk} from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import * as authApi from "../../shared/api/auth-api";
+import instance from "../../shared/api/instance";
+import { logout as logoutAction } from "./authSlice";
+import { clearToken } from "../../shared/api/auth-api";
+
 
 export const registerUser = createAsyncThunk(
   "auth/register",
   async (payload, { rejectWithValue }) => {
     try {
-      const data = await authApi.register(payload); 
-      return data; 
+      return await authApi.register(payload);
     } catch (error) {
-
-      if (error.response?.data) {
-        return rejectWithValue(error.response.data);
-      }
-
-      return rejectWithValue({
-        message: error.message || "Register error",
-      });
+      return rejectWithValue(error.response?.data || { message: error.message });
     }
   }
 );
@@ -25,41 +21,39 @@ export const loginUser = createAsyncThunk(
   "auth/login",
   async (payload, { rejectWithValue }) => {
     try {
-      const data = await authApi.login(payload);
-      return data;
+      return await authApi.login(payload);
     } catch (error) {
       return rejectWithValue({
         email: error?.response?.data?.message || error?.message,
       });
     }
-  },
+  }
 );
 
-// LOGOUT
-export const logoutUser = createAsyncThunk(
-  "auth/logout",
-  async (_, { rejectWithValue }) => {
-    try {
-      await authApi.logout();
-    } catch (error) {
-      return rejectWithValue({
-        email: error?.response?.data?.message || error?.message,
-      });
-    }
-  },
-);
 
-// GET CURRENT USER
+export const logoutUser = () => async (dispatch) => {
+  try {
+    await instance.post("/auth/logout");
+  } catch (e) {
+  } finally {
+    clearToken();
+    dispatch(logoutAction());
+    localStorage.removeItem("persist:auth");
+  }
+};
+
+
 export const getCurrentUser = createAsyncThunk(
   "auth/current",
-  async (_, { rejectWithValue }) => {
+  async (_, { getState, rejectWithValue }) => {
+    const token = getState()?.auth?.accessToken;
+    if (!token) return rejectWithValue("No token");
+
     try {
-      const data = await authApi.getCurrent();
-      return data;
+      return await authApi.getCurrent();
     } catch (error) {
-      return rejectWithValue({
-        email: error?.response?.data?.message || error?.message,
-      });
+      return rejectWithValue(error.response?.data || { message: error.message });
     }
-  },
+  }
 );
+  

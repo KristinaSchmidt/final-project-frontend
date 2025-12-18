@@ -6,7 +6,7 @@
   padding: 32px 16px 24px 16px;
 }
 
-/* oberer Bereich */
+
 .top {
   width: min(935px, 100%);
   display: flex;
@@ -14,7 +14,7 @@
   margin-bottom: 32px;
 }
 
-/* Avatar links */
+
 .avatarBox {
   flex: 0 0 auto;
   display: flex;
@@ -29,7 +29,7 @@
   object-fit: cover;
 }
 
-/* Info rechts */
+
 .info {
   flex: 1;
   display: flex;
@@ -48,7 +48,7 @@
   font-weight: 400;
 }
 
-/* Buttons oben */
+
 .followBtn {
   padding: 6px 16px;
   border-radius: 8px;
@@ -68,14 +68,14 @@
   cursor: pointer;
 }
 
-/* Stats */
+
 .rowSmall {
   display: flex;
   gap: 24px;
   font-size: 14px;
 }
 
-/* Bio */
+
 .bio {
   font-size: 14px;
 }
@@ -89,7 +89,7 @@
   text-decoration: none;
 }
 
-/* Posts Grid */
+
 .grid {
   width: min(935px, 100%);
   display: grid;
@@ -110,7 +110,7 @@
   display: block;
 }
 
-/* Tablet */
+
 @media (max-width: 1024px) {
   .top {
     flex-direction: column;
@@ -137,7 +137,7 @@
   }
 }
 
-/* Handy */
+
 @media (max-width: 600px) {
   .wrapper {
     padding: 16px 8px 16px;

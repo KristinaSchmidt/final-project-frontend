@@ -1,14 +1,14 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
-
-import { selectToken } from "../../../store/auth/authSelectors";
+import {
+  selectIsLoggedIn,
+  selectUser,
+} from "../../../store/auth/authSelectors";
 
 const PrivateRoute = () => {
-  const isToken = useSelector(selectToken);
-  // const user = useSelector(selectUser);
-
-  // Token existiert, aber der User ist noch nicht geladen
-  if (!isToken) {
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const user = useSelector(selectUser);
+  if (!isLoggedIn || !user) {
     return <Navigate to="/login" replace />;
   }
 

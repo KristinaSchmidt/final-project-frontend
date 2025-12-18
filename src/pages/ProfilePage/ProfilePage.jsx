@@ -1,55 +1,63 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { selectUser } from "../../store/auth/authSelectors";
 import { useNavigate } from "react-router-dom";
-import { getUserProfile } from "../../shared/api/user-api";
+import { selectUser } from "../../store/auth/authSelectors";
+import { getMyProfile } from "../../shared/api/user-api";
 import styles from "./ProfilePage.module.css";
+import Avatar from "../../shared/components/Avatar/Avatar.jsx";
+import PostModal from "../../shared/components/PostModal/PostModal.jsx";
+
+
+
 
 const ProfilePage = () => {
-  const authUser = useSelector(selectUser); 
+  const authUser = useSelector(selectUser);
   const navigate = useNavigate();
+  const [selectedPostId, setSelectedPostId] = useState(null);
+  const [userData, setUserData] = useState(null);
+  const [stats, setStats] = useState({ posts: 0, followers: 0, following: 0 });
+  const [posts, setPosts] = useState([]);
+  const [error, setError] = useState("");
 
-  const [profile, setProfile] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-  if (!authUser?._id) return;
 
   const loadProfile = async () => {
     try {
-      const data = await getUserProfile(authUser._id);
-
-      setProfile(data);
-    } catch (error) {
-      console.error("Profile loading error:", error);
-    } finally {
-      setLoading(false);
+      const data = await getMyProfile();
+      setUserData(data.user);
+      setStats(data.stats);
+      setPosts(data.posts);
+      setError("");
+    } catch (err) {
+      console.log(err);
+      setError("Could not load user profile");
     }
   };
 
-  loadProfile();
-}, [authUser]);
+  useEffect(() => {
+    if (!authUser) return;
+    loadProfile();
+  }, [authUser]);
 
-  if (loading || !profile) {
-    return <div className={styles.wrapper}>Loading...</div>;
+  if (!userData) {
+    return <p className={styles.loading}>Loading...</p>;
   }
 
-  const { user, stats, posts } = profile;
+  const { username, website, about, avatar } = userData;
 
   return (
     <div className={styles.wrapper}>
+      {error && <p className={styles.error}>{error}</p>}
+
       <div className={styles.top}>
         <div className={styles.avatarBox}>
-          <img
-            className={styles.avatar}
-            src={user.avatar}
-            alt="profile avatar"
-          />
+          <div className={styles.avatarRing}>
+            <Avatar src={avatar} alt={`${username} avatar`} size="profile" />
+          </div>
         </div>
 
         <div className={styles.info}>
           <div className={styles.row}>
-            <h2 className={styles.name}>{user.username}</h2>
+            <h2 className={styles.name}>{username}</h2>
 
             <button
               className={styles.button}
@@ -60,30 +68,58 @@ const ProfilePage = () => {
           </div>
 
           <div className={styles.rowSmall}>
-            <span><b>{stats.posts}</b> posts</span>
-            <span><b>{stats.followers}</b> followers</span>
-            <span><b>{stats.following}</b> following</span>
+            <span>
+              <b>{stats.posts}</b> posts
+            </span>
+            <span>
+              <b>{stats.followers}</b> followers
+            </span>
+            <span>
+              <b>{stats.following}</b> following
+            </span>
           </div>
 
           <div className={styles.bio}>
-            <strong>{user.fullname}</strong>
-            {user.about && <p>{user.about}</p>}
-            {user.website && (
-              <a href={user.website} target="_blank" rel="noreferrer">
-                {user.website}
+            {about && <p>{about}</p>}
+            {website && (
+              <a href={website} target="_blank" rel="noreferrer">
+                {website}
               </a>
             )}
           </div>
         </div>
       </div>
 
-      <div className={styles.postsGrid}>
-        {posts.map(p => (
-          <div key={p._id} className={styles.postBox}>
-            <img src={p.imageUrl} alt="post" className={styles.post} />
-          </div>
-        ))}
-      </div>
+      <div className={styles.divider} />
+
+
+      {posts.length === 0 ? (
+        <p className={styles.empty}>No posts yet</p>
+      ) : (
+        <div className={styles.postsGrid}>
+          {posts.map((p) => (
+            <button
+              key={p._id}
+              type="button"
+              className={styles.postBox}
+              onClick={() => setSelectedPostId(p._id)}
+            >
+              <img src={p.imageUrl} alt="post" className={styles.post} />
+            </button>
+          ))}
+        </div>
+      )}
+
+
+      <PostModal
+        isOpen={!!selectedPostId}
+        postId={selectedPostId}
+        onClose={() => setSelectedPostId(null)}
+        onDeleted={async () => {
+          setSelectedPostId(null);
+          await loadProfile();
+        }}
+      />
     </div>
   );
 };

@@ -8,13 +8,13 @@ import { setToken } from "./shared/api/auth-api.js";
 
 
 function App() {
-   const token = useSelector(selectToken);   // <-- nicht isLoggedIn, sondern token selbst
+   const token = useSelector(selectToken);
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (token) {
-      setToken(token);            // <-- TOKEN IN AXIOS SETZEN!
-      dispatch(getCurrentUser()); // <-- jetzt erst Request möglich
+      setToken(token);
+      dispatch(getCurrentUser());
     }
   }, [token, dispatch]);
 

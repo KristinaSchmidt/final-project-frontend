@@ -15,7 +15,7 @@
   margin-bottom: 24px;
 }
 
-/* obere Karte mit Avatar + Button */
+
 .card {
   display: flex;
   align-items: center;
@@ -59,7 +59,7 @@
   margin-bottom: 8px;
 }
 
-/* Button "New photo" */
+
 .photoBtn {
   display: inline-block;
   padding: 6px 12px;
@@ -74,7 +74,7 @@
   display: none;
 }
 
-/* Felder */
+
 .field {
   margin-bottom: 16px;
 }
@@ -94,14 +94,42 @@
   font-size: 14px;
 }
 
+
+.textareaWrap {
+  position: relative;
+}
+
 .textarea {
   width: 100%;
   min-height: 80px;
   border-radius: 8px;
   border: 1px solid #dbdbdb;
-  padding: 8px 10px;
+  padding: 8px 38px 8px 10px;
   font-size: 14px;
   resize: vertical;
+}
+
+
+.emojiBtn {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+}
+
+
+.picker {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  z-index: 20;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+  border-radius: 12px;
+  overflow: hidden;
 }
 
 .counter {
@@ -117,17 +145,24 @@
   margin-bottom: 12px;
 }
 
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 16px;
+}
+
 .saveBtn {
-  display: block;
-  width: 120px;
-  margin: 16px auto 0;
-  padding: 8px 16px;
+  flex: 1;
+  padding: 10px 16px;
   border-radius: 8px;
   border: none;
   background-color: #0095f6;
   color: #ffffff;
   font-size: 14px;
   cursor: pointer;
+  font-weight: 600;
 }
 
 .saveBtn:disabled {
@@ -135,8 +170,8 @@
   cursor: default;
 }
 
-
 .logoutBtn {
+  flex: 1;
   background: #e53935;
   color: white;
   border: none;
@@ -145,6 +180,7 @@
   cursor: pointer;
   font-weight: 600;
 }
+
 .logoutBtn:hover {
   background: #d32f2f;
 }

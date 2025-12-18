@@ -37,7 +37,7 @@ const SignUpForm = ({ requestErrors, isSubmitSuccess, submitForm }) => {
     submitForm(values);
   };
 
-  // console.log(errors);
+
 
 
     return (

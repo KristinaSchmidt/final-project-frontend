@@ -1,0 +1,27 @@
+.feed {
+  width: min(980px, 100%);
+  margin: 0 auto;
+  padding: 18px 12px;
+
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+}
+
+@media (min-width: 980px) {
+  .feed {
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+  }
+}
+
+.info {
+  grid-column: 1 / -1;
+  margin: 0;
+}
+
+.error {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: #ed4956;
+}

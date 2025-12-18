@@ -6,7 +6,6 @@ const NotFoundPage = () => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.box}>
-        {/* Bild links */}
         <div className={styles.imageBox}>
           <img
             className={styles.image}
@@ -14,8 +13,6 @@ const NotFoundPage = () => {
             alt="Page not found"
           />
         </div>
-
-        {/* Text rechts */}
         <div className={styles.textBox}>
           <h1 className={styles.title}>Oops! Page Not Found (404 Error)</h1>
 

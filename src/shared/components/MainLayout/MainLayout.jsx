@@ -4,7 +4,7 @@ import Sidebar from "../Sidebar/Sidebar";
 import Footer from "../Footer/Footer";
 
 
-const MainLayout = ({ children }) => {
+const MainLayout = () => {
   return (
     <div className={styles.layout}>
         <aside className={styles.sidebar}>

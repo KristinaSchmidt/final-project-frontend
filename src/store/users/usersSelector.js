@@ -1,0 +1,1 @@
+export const selectUserById = (state, id) => (id ? state.users.byId[id] : null);

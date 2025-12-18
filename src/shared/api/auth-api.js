@@ -7,17 +7,18 @@ export const register = async payload => {
 
 export const login = async payload => {
   const { data } = await instance.post("/auth/login", payload);
-  instance.defaults.headers["Authorization"] = `Bearer ${data.accessToken}`;
+  instance.defaults.headers.common["Authorization"] = `Bearer ${data.accessToken}`;
 
   return data;
 };
 
 export const setToken = (token) => {
+  if (!token) return;
   instance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 };
 
 export const clearToken = () => {
-  delete instance.defaults.headers["Authorization"];
+  delete instance.defaults.headers.common["Authorization"];
 };
 
 export const logout = async () => {

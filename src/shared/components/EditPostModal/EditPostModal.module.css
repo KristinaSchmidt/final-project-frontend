@@ -1,0 +1,100 @@
+.overlay{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.sheet{
+  width: min(420px, 92vw);
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.item{
+  width: 100%;
+  padding: 12px 14px;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  font-size: 14px;
+  text-align: center;
+}
+
+.item:hover{ background: rgba(0,0,0,0.04); }
+
+.danger{
+  color: #ed4956;
+  font-weight: 600;
+}
+
+.divider{
+  height: 1px;
+  background: rgba(0,0,0,0.10);
+}
+
+
+.editHeader{
+  height: 52px;
+  display: grid;
+  grid-template-columns: 52px 1fr 90px;
+  align-items: center;
+  border-bottom: 1px solid rgba(0,0,0,0.10);
+}
+
+.back{
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.editTitle{
+  text-align: center;
+  font-weight: 600;
+}
+
+.save{
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font-weight: 600;
+  padding-right: 12px;
+}
+
+.editBody{ padding: 12px; }
+
+.textarea{
+  width: 100%;
+  min-height: 140px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,0.15);
+  outline: none;
+  resize: vertical;
+}
+
+.emojiRow{
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding-top: 8px;
+}
+
+.emojiBtn{
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+  padding: 6px;
+  border-radius: 8px;
+}
+
+.emojiBtn:hover{
+  background: rgba(0,0,0,0.06);
+}

@@ -1,0 +1,170 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.modal {
+  width: min(1000px, 92vw);
+  height: min(650px, 88vh);
+  max-height: 88vh;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+}
+
+.left {
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+  min-width: 320px;
+  height: 100%;
+  min-height: 0;
+}
+
+.top {
+  height: 56px;
+  padding: 0 14px;
+  border-bottom: 1px solid #dbdbdb;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.userRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.username {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.closeBtn {
+  border: none;
+  background: transparent;
+  font-size: 18px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.body {
+  padding: 12px 14px;
+  flex: 1 1 auto;
+  overflow-y: auto;
+  font-size: 14px;
+  min-height: 0; 
+}
+
+.captionRow {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.captionText {
+  font-weight: 400;
+}
+
+.commentList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.commentRow {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.commentText {
+  font-weight: 400;
+}
+
+.bottom {
+  border-top: 1px solid #dbdbdb;
+  padding: 10px 14px;
+  flex: 0 0 auto;
+}
+
+.actionsRow {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.iconBtn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.likes {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.time {
+  font-size: 11px;
+  color: #8e8e8e;
+  margin-bottom: 10px;
+}
+
+.commentForm {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.commentInput {
+  flex: 1;
+  height: 34px;
+  border-radius: 18px;
+  border: 1px solid #dbdbdb;
+  padding: 0 12px;
+  font-size: 14px;
+}
+
+.commentSend {
+  border: none;
+  background: transparent;
+  color: #0095f6;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.commentSend:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+@media (max-width: 900px) {
+  .modal {
+    grid-template-columns: 1fr;
+    height: min(750px, 90vh);
+  }
+  .left { height: min(45vh, 360px); }
+}
